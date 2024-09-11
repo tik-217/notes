@@ -1,10 +1,26 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+// react
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 
-createRoot(document.getElementById('root')!).render(
+// react-router-dom
+import { BrowserRouter } from "react-router-dom";
+
+// routes
+import { MainRoutes } from "./routes/MainRoutes";
+
+//mantine
+import { MantineProvider } from "@mantine/core";
+
+// styles
+import "@mantine/core/styles.css";
+import "@app/index.css";
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <BrowserRouter>
+      <MantineProvider>
+        <MainRoutes />
+      </MantineProvider>
+    </BrowserRouter>
+  </StrictMode>
+);
