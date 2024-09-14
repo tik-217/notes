@@ -2,7 +2,7 @@
 import { createContext } from "react";
 
 // context
-import { IAuthContext } from "@context/Auth/Auth.types";
+import { IAuthContext } from "@context/AuthContext/AuthContext.types";
 
 export const AuthContext = createContext<IAuthContext>({
   user: {

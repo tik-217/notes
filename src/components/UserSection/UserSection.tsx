@@ -8,7 +8,7 @@ import { UnstyledButton, Group, Avatar, Text, rem } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 
 // context
-import { AuthContext } from "@context/Auth";
+import { AuthContext } from "@context/AuthContext";
 
 // styles
 import classes from "./UserSection.module.css";
