@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // context
-import { AuthContext } from "@context/Auth";
+import { AuthContext } from "@context/AuthContext";
 
 // mantine
 import { Paper, Title, Text, Container, Button, Input } from "@mantine/core";
@@ -23,12 +23,12 @@ export function Authentication() {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
-      email: "",
-      name: "",
+      name: "Tigran",
+      email: "tigran.gabulyan.2001@mail.ru",
     },
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
       name: isNotEmpty("Name is required"),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
     },
   });
 

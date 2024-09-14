@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 // context
-import { AuthContext } from "@context/Auth";
+import { AuthContext } from "@context/AuthContext";
 
 export function CheckAuth({ children }: { children: JSX.Element }) {
   const { user } = useContext(AuthContext);

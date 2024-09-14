@@ -2,8 +2,8 @@
 import { useState } from "react";
 
 // context
-import { AuthContext } from "@context/Auth";
-import { IAuthFields } from "@context/Auth/Auth.types";
+import { AuthContext } from "@context/AuthContext";
+import { IAuthFields } from "@context/AuthContext/AuthContext.types";
 
 export function Auth({ children }: { children: JSX.Element }) {
   const [user, setUser] = useState<IAuthFields | null>(null);

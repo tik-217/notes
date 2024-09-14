@@ -10,15 +10,23 @@ import { CheckAuth } from "@components/CheckAuth";
 // providers
 import { SuspenseWrap } from "@providers/SuspenseWrap";
 import { Auth } from "@providers/Auth";
+import { EditNote } from "@providers/EditNote";
 
-const Main = lazy(() =>
-  import("@pages/Main").then(({ Main }) => ({
-    default: Main,
+const MainLayout = lazy(() =>
+  import("@layouts/MainLayout/MainLayout").then(({ MainLayout }) => ({
+    default: MainLayout,
   }))
 );
+
 const Authentication = lazy(() =>
   import("@pages/Authentication").then(({ Authentication }) => ({
     default: Authentication,
+  }))
+);
+
+const NoteSection = lazy(() =>
+  import("@components/NoteSection").then(({ NoteSection }) => ({
+    default: NoteSection,
   }))
 );
 
@@ -30,13 +38,17 @@ export function MainRoutes() {
         element={
           <Auth>
             <CheckAuth>
-              <SuspenseWrap>
-                <Main />
-              </SuspenseWrap>
+              <EditNote>
+                <SuspenseWrap>
+                  <MainLayout />
+                </SuspenseWrap>
+              </EditNote>
             </CheckAuth>
           </Auth>
         }
-      />
+      >
+        <Route path="/notes/:id" element={<NoteSection />} />
+      </Route>
       <Route
         path="/auth"
         element={
