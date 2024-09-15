@@ -30,6 +30,12 @@ const NoteSection = lazy(() =>
   }))
 );
 
+const NotFound = lazy(() =>
+  import("@pages/NotFound").then(({ NotFound }) => ({
+    default: NotFound,
+  }))
+);
+
 export function MainRoutes() {
   return (
     <Routes>
@@ -47,8 +53,9 @@ export function MainRoutes() {
           </Auth>
         }
       >
-        <Route index element={<Navigate to={"/notes/1"} />} />
-        <Route path="/notes/:id" element={<NoteSection />} />
+        <Route index element={<Navigate to={"notes/1"} />} />
+        <Route path="notes" element={<Navigate to={"/notes/1"} />} />
+        <Route path="notes/:id" element={<NoteSection />} />
       </Route>
       <Route
         path="/auth"
@@ -58,6 +65,7 @@ export function MainRoutes() {
           </Auth>
         }
       />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
