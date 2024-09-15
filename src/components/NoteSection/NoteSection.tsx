@@ -1,14 +1,21 @@
-import { useCallback, useContext } from "react";
-
 // react
-import { useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+
+// react-router-dom
+import { useParams } from "react-router-dom";
 
 // context
 import { EditNoteContext } from "@context/EditNoteContext/EditNoteContext";
 
+// data
+import { notesList } from "@data/notesList";
+
 // manitne
-import { ActionIcon, Container, Flex, Text } from "@mantine/core";
+import { ActionIcon, Container, Flex } from "@mantine/core";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
+
+// react-markdown
+import ReactMarkdown from "react-markdown";
 
 // react-simplemde-editor
 import { SimpleMdeReact } from "react-simplemde-editor";
@@ -17,13 +24,21 @@ import { SimpleMdeReact } from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 
 export function NoteSection() {
-  const [value, setValue] = useState("Initial text");
+  const { id: noteId } = useParams();
+  const { isEditNote, editNote } = useContext(EditNoteContext);
+  const [mdText, setMdText] = useState("");
 
-  const onChange = useCallback((value: string) => {
-    setValue(value);
+  const mdEdit = useCallback((newText: string) => {
+    setMdText(newText);
   }, []);
 
-  const { isEditNote, editNote } = useContext(EditNoteContext);
+  useEffect(() => {
+    const initialText = noteId
+      ? notesList.filter((el) => el.id === +noteId)
+      : [];
+
+    setMdText(initialText[0].text);
+  }, [noteId]);
 
   return (
     <>
@@ -37,11 +52,11 @@ export function NoteSection() {
       >
         {!isEditNote ? (
           <Container>
-            <Text>{value}</Text>
+            <ReactMarkdown>{mdText}</ReactMarkdown>
           </Container>
         ) : (
           <Container>
-            <SimpleMdeReact value={value} onChange={onChange} />
+            <SimpleMdeReact value={mdText} onChange={mdEdit} />
           </Container>
         )}
         <Container m={0}>

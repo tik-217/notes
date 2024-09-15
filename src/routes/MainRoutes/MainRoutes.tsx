@@ -2,7 +2,7 @@
 import { lazy } from "react";
 
 // react-router-dom
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 // components
 import { CheckAuth } from "@components/CheckAuth";
@@ -47,6 +47,7 @@ export function MainRoutes() {
           </Auth>
         }
       >
+        <Route index element={<Navigate to={"/notes/1"} />} />
         <Route path="/notes/:id" element={<NoteSection />} />
       </Route>
       <Route
