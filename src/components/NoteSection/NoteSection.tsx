@@ -4,21 +4,22 @@ import { useCallback, useContext, useEffect, useState } from "react";
 // react-router-dom
 import { useParams } from "react-router-dom";
 
-// context
-import { EditNoteContext } from "@context/EditNoteContext/EditNoteContext";
-
-// data
-import { notesList } from "@data/notesList";
-
-// manitne
-import { ActionIcon, Container, Flex } from "@mantine/core";
-import { IconPencil, IconTrash } from "@tabler/icons-react";
-
 // react-markdown
 import ReactMarkdown from "react-markdown";
 
 // react-simplemde-editor
 import { SimpleMdeReact } from "react-simplemde-editor";
+
+// context
+import { EditNoteContext } from "@context/EditNoteContext/EditNoteContext";
+
+// hooks
+import { useGetItemsFromLS } from "@hooks/useGetItemsFromLS";
+import { useSaveNewNotes } from "@hooks/useSaveNewNotes";
+
+// manitne
+import { ActionIcon, Container, Flex } from "@mantine/core";
+import { IconDeviceFloppy, IconPencil, IconTrash } from "@tabler/icons-react";
 
 // styles
 import "easymde/dist/easymde.min.css";
@@ -32,13 +33,19 @@ export function NoteSection() {
     setMdText(newText);
   }, []);
 
-  useEffect(() => {
-    const initialText = noteId
-      ? notesList.filter((el) => el.id === +noteId)
-      : [];
+  const { notes } = useGetItemsFromLS({ noteId });
 
-    setMdText(initialText[0].text);
-  }, [noteId]);
+  useEffect(() => {
+    if (!noteId) return;
+    if (!notes.length) return;
+
+    const currNoteLS = notes[+noteId - 1];
+
+    setMdText(currNoteLS.text);
+    // eslint-disable-next-line
+  }, [notes]);
+
+  useSaveNewNotes({ notes, isEditNote, noteId, mdText });
 
   return (
     <>
@@ -51,19 +58,19 @@ export function NoteSection() {
         w={"100%"}
       >
         {!isEditNote ? (
-          <Container>
+          <Flex justify={"flex-start"} w={"auto"}>
             <ReactMarkdown>{mdText}</ReactMarkdown>
-          </Container>
+          </Flex>
         ) : (
-          <Container>
+          <Container w={"100%"}>
             <SimpleMdeReact value={mdText} onChange={mdEdit} />
           </Container>
         )}
-        <Container m={0}>
+        <Flex m={0} wrap={"nowrap"}>
           <ActionIcon
             variant="outline"
             color="red"
-            aria-label="Settings"
+            aria-label="IconTrash"
             mr={"xs"}
           >
             <IconTrash style={{ width: "70%", height: "70%" }} stroke={1.5} />
@@ -71,12 +78,19 @@ export function NoteSection() {
           <ActionIcon
             variant="outline"
             color="gray"
-            aria-label="Settings"
+            aria-label="IconPencil"
             onClick={() => editNote(!isEditNote)}
           >
-            <IconPencil style={{ width: "70%", height: "70%" }} stroke={1.5} />
+            {!isEditNote ? (
+              <IconPencil
+                style={{ width: "70%", height: "70%" }}
+                stroke={1.5}
+              />
+            ) : (
+              <IconDeviceFloppy />
+            )}
           </ActionIcon>
-        </Container>
+        </Flex>
       </Flex>
     </>
   );
