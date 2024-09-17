@@ -11,11 +11,8 @@ import ReactMarkdown from "react-markdown";
 import { SimpleMdeReact } from "react-simplemde-editor";
 
 // context
-import { EditNoteContext } from "@context/EditNoteContext/EditNoteContext";
-
-// hooks
-import { useGetItemsFromLS } from "@hooks/useGetItemsFromLS";
-import { useSaveNewNotes } from "@hooks/useSaveNewNotes";
+import { EditNoteContext } from "@context/EditNoteContext";
+import { LocalStorageNotes } from "@context/LocalStorageNotes";
 
 // manitne
 import { ActionIcon, Container, Flex } from "@mantine/core";
@@ -25,15 +22,19 @@ import { IconDeviceFloppy, IconPencil, IconTrash } from "@tabler/icons-react";
 import "easymde/dist/easymde.min.css";
 
 export function NoteSection() {
+  // params
   const { id: noteId } = useParams();
-  const { isEditNote, editNote } = useContext(EditNoteContext);
+
+  // state
   const [mdText, setMdText] = useState("");
+
+  // context
+  const { isEditNote, editNote } = useContext(EditNoteContext);
+  const { notes, saveNewNotes } = useContext(LocalStorageNotes);
 
   const mdEdit = useCallback((newText: string) => {
     setMdText(newText);
   }, []);
-
-  const { notes } = useGetItemsFromLS({ noteId });
 
   useEffect(() => {
     if (!noteId) return;
@@ -45,7 +46,10 @@ export function NoteSection() {
     // eslint-disable-next-line
   }, [notes]);
 
-  useSaveNewNotes({ notes, isEditNote, noteId, mdText });
+  useEffect(() => {
+    saveNewNotes(mdText);
+    // eslint-disable-next-line
+  }, [mdText]);
 
   return (
     <>

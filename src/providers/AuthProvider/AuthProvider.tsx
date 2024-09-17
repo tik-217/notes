@@ -5,7 +5,7 @@ import { useState } from "react";
 import { AuthContext } from "@context/AuthContext";
 import { IAuthFields } from "@context/AuthContext/AuthContext.types";
 
-export function Auth({ children }: { children: JSX.Element }) {
+export function AuthProvider({ children }: { children: JSX.Element }) {
   const [user, setUser] = useState<IAuthFields | null>(null);
 
   const login = (authFields: IAuthFields, callback: () => void) => {

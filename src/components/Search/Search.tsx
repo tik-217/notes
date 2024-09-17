@@ -1,29 +1,78 @@
 // mantine
-import { Code, Kbd, rem, TextInput } from "@mantine/core";
-
-// tabler-icons
-import { IconSearch } from "@tabler/icons-react";
+import { Combobox, Container, InputBase, useCombobox } from "@mantine/core";
 
 // styles
-import classes from "./Search.module.css";
+import { useContext, useState } from "react";
+import { LocalStorageNotes } from "@context/LocalStorageNotes";
+import { Link } from "react-router-dom";
 
 export function Search() {
+  const { notes } = useContext(LocalStorageNotes);
+
+  const combobox = useCombobox({
+    onDropdownClose: () => combobox.resetSelectedOption(),
+  });
+
+  const [value, setValue] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+
+  const shouldFilterOptions = notes.every((item) => {
+    return item.label !== search;
+  });
+
+  const filteredOptions = shouldFilterOptions
+    ? notes.filter((item) =>
+        item.label.toLowerCase().includes(search.toLowerCase().trim())
+      )
+    : notes;
+
+  const options = filteredOptions.map((item) => (
+    <Link to={`/notes/${item.id}`} key={item.id}>
+      <Combobox.Option value={item.label}>{item.label}</Combobox.Option>
+    </Link>
+  ));
+
   return (
-    <TextInput
-      placeholder="Search"
-      size="xs"
-      leftSection={
-        <IconSearch style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
-      }
-      rightSectionWidth={70}
-      rightSection={
-        <Code className={classes.searchCode}>
-          <Kbd>Shift</Kbd>
-          <Kbd>K</Kbd>
-        </Code>
-      }
-      styles={{ section: { pointerEvents: "none" } }}
-      mb="sm"
-    />
+    <Container mb={15}>
+      <Combobox
+        store={combobox}
+        withinPortal={false}
+        onOptionSubmit={(val) => {
+          setValue(val);
+          setSearch(val);
+          combobox.closeDropdown();
+        }}
+      >
+        <Combobox.Target>
+          <InputBase
+            rightSection={<Combobox.Chevron />}
+            value={search}
+            onChange={(event) => {
+              combobox.openDropdown();
+              combobox.updateSelectedOptionIndex();
+              setSearch(event.currentTarget.value);
+            }}
+            onClick={() => combobox.openDropdown()}
+            onFocus={() => combobox.openDropdown()}
+            onBlur={() => {
+              combobox.closeDropdown();
+              setSearch(value || "");
+            }}
+            placeholder="Search value"
+            rightSectionPointerEvents="none"
+          />
+        </Combobox.Target>
+
+        <Combobox.Dropdown>
+          <Combobox.Options>
+            {options.length > 0 ? (
+              options
+            ) : (
+              <Combobox.Empty>Nothing found</Combobox.Empty>
+            )}
+          </Combobox.Options>
+        </Combobox.Dropdown>
+      </Combobox>
+    </Container>
   );
 }
