@@ -2,7 +2,7 @@
 import { EditNoteContext } from "@context/EditNoteContext/EditNoteContext";
 import { useState } from "react";
 
-export function EditNote({ children }: { children: JSX.Element }) {
+export function EditNoteProvider({ children }: { children: JSX.Element }) {
   const [isEditNote, setIsEditNote] = useState(false);
 
   function editNote(editState: boolean) {

@@ -7,7 +7,7 @@ import { Navigate, useLocation } from "react-router-dom";
 // context
 import { AuthContext } from "@context/AuthContext";
 
-export function CheckAuth({ children }: { children: JSX.Element }) {
+export function CheckAuthProvider({ children }: { children: JSX.Element }) {
   const { user } = useContext(AuthContext);
 
   const locations = useLocation();

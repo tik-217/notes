@@ -5,12 +5,13 @@ import { lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 // components
-import { CheckAuth } from "@components/CheckAuth";
+import { CheckAuthProvider } from "@providers/CheckAuthProvider";
 
 // providers
+import { LSNotesProvider } from "@providers/LSNotesProvider/LSNotesProvider";
+import { EditNoteProvider } from "@providers/EditNoteProvider";
 import { SuspenseWrap } from "@providers/SuspenseWrap";
-import { Auth } from "@providers/Auth";
-import { EditNote } from "@providers/EditNote";
+import { AuthProvider } from "@providers/AuthProvider";
 
 const MainLayout = lazy(() =>
   import("@layouts/MainLayout/MainLayout").then(({ MainLayout }) => ({
@@ -42,15 +43,17 @@ export function MainRoutes() {
       <Route
         path="/"
         element={
-          <Auth>
-            <CheckAuth>
-              <EditNote>
-                <SuspenseWrap>
-                  <MainLayout />
-                </SuspenseWrap>
-              </EditNote>
-            </CheckAuth>
-          </Auth>
+          <AuthProvider>
+            <CheckAuthProvider>
+              <EditNoteProvider>
+                <LSNotesProvider>
+                  <SuspenseWrap>
+                    <MainLayout />
+                  </SuspenseWrap>
+                </LSNotesProvider>
+              </EditNoteProvider>
+            </CheckAuthProvider>
+          </AuthProvider>
         }
       >
         <Route index element={<Navigate to={"notes/1"} />} />
@@ -60,9 +63,9 @@ export function MainRoutes() {
       <Route
         path="/auth"
         element={
-          <Auth>
+          <AuthProvider>
             <Authentication />
-          </Auth>
+          </AuthProvider>
         }
       />
       <Route path="*" element={<NotFound />} />
