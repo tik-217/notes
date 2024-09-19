@@ -10,6 +10,7 @@ import { MainRoutes } from "./routes/MainRoutes";
 
 //mantine
 import { MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
 
 // styles
 import "@mantine/core/styles.css";
@@ -19,7 +20,9 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <MantineProvider>
-        <MainRoutes />
+        <ModalsProvider>
+          <MainRoutes />
+        </ModalsProvider>
       </MantineProvider>
     </BrowserRouter>
   </StrictMode>
