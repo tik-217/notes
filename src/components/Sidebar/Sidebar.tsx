@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 
 // context
-import { LocalStorageNotes } from "@context/LocalStorageNotes";
+import { LocalStorageNotesContext } from "@context/LocalStorageNotesContext";
 import { EditNoteContext } from "@context/EditNoteContext";
 
 // components
@@ -23,7 +23,7 @@ import { IconNote } from "@tabler/icons-react";
 
 export function Sidebar() {
   const { editNote } = useContext(EditNoteContext);
-  const { notes } = useContext(LocalStorageNotes);
+  const { notes } = useContext(LocalStorageNotesContext);
   const { id: noteId } = useParams();
 
   return (

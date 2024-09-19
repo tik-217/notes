@@ -1,16 +1,23 @@
 // react
-import { lazy } from "react";
+import { lazy, useEffect, useState } from "react";
 
 // react-router-dom
 import { Navigate, Route, Routes } from "react-router-dom";
 
-// components
-import { CheckAuthProvider } from "@providers/CheckAuthProvider";
+// constants
+import { LSNoteName } from "@constants/LSNoteName";
+
+// data
+import { notesList } from "@data/notesList";
+
+// utils
+import { getInitialNoteId } from "@utils/getInitialNoteId";
 
 // providers
-import { LSNotesProvider } from "@providers/LSNotesProvider/LSNotesProvider";
+import { LocalStorageNotesProvider } from "@providers/LocalStorageNotesProvider";
+import { CheckAuthProvider } from "@providers/CheckAuthProvider";
 import { EditNoteProvider } from "@providers/EditNoteProvider";
-import { SuspenseWrap } from "@providers/SuspenseWrap";
+import { SuspenseProvider } from "@providers/SuspenseProvider";
 import { AuthProvider } from "@providers/AuthProvider";
 
 const MainLayout = lazy(() =>
@@ -38,26 +45,38 @@ const NotFound = lazy(() =>
 );
 
 export function MainRoutes() {
+  const [firstNoteId, setFirstNoteId] = useState(1);
+
+  // getting the initial note id and assigning notes by default
+  useEffect(() => {
+    const LSNotes = localStorage.getItem(LSNoteName);
+
+    if (LSNotes) {
+      getInitialNoteId({ LSNotes, setFirstNoteId });
+    } else {
+      localStorage.setItem(LSNoteName, JSON.stringify(notesList));
+    }
+  }, []);
+
   return (
     <Routes>
       <Route
         path="/"
         element={
           <AuthProvider>
-            <CheckAuthProvider>
-              <EditNoteProvider>
-                <LSNotesProvider>
-                  <SuspenseWrap>
+            <SuspenseProvider>
+              <CheckAuthProvider>
+                <EditNoteProvider>
+                  <LocalStorageNotesProvider>
                     <MainLayout />
-                  </SuspenseWrap>
-                </LSNotesProvider>
-              </EditNoteProvider>
-            </CheckAuthProvider>
+                  </LocalStorageNotesProvider>
+                </EditNoteProvider>
+              </CheckAuthProvider>
+            </SuspenseProvider>
           </AuthProvider>
         }
       >
-        <Route index element={<Navigate to={"notes/1"} />} />
-        <Route path="notes" element={<Navigate to={"/notes/1"} />} />
+        <Route index element={<Navigate to={`notes/${firstNoteId}`} />} />
         <Route path="notes/:id" element={<NoteSection />} />
       </Route>
       <Route
