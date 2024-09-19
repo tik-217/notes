@@ -13,7 +13,7 @@ export function useGetItemsFromLS({ noteId }: { noteId: string | undefined }) {
   useEffect(() => {
     const LSNotes = localStorage.getItem(LSNoteName);
 
-    if (!LSNotes) return;
+    if (!LSNotes) return setNotes([]);
 
     const parseNotes: ILSNotes[] = JSON.parse(LSNotes);
 

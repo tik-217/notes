@@ -3,11 +3,11 @@ import { Combobox, Container, InputBase, useCombobox } from "@mantine/core";
 
 // styles
 import { useContext, useState } from "react";
-import { LocalStorageNotes } from "@context/LocalStorageNotes";
+import { LocalStorageNotesContext } from "@context/LocalStorageNotesContext";
 import { Link } from "react-router-dom";
 
 export function Search() {
-  const { notes } = useContext(LocalStorageNotes);
+  const { notes } = useContext(LocalStorageNotesContext);
 
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
