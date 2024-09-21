@@ -20,6 +20,7 @@ export default defineConfig({
       "@pages": path.resolve(__dirname, "./src/pages"),
       "@data": path.resolve(__dirname, "./src/data"),
       "@utils": path.resolve(__dirname, "./src/utils"),
+      "@modals": path.resolve(__dirname, "./src/modals"),
       "@routes": path.resolve(__dirname, "./src/routes"),
       "@assets": path.resolve(__dirname, "./src/assets"),
       "@layouts": path.resolve(__dirname, "./src/layouts"),

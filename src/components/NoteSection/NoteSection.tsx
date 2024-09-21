@@ -10,6 +10,9 @@ import ReactMarkdown from "react-markdown";
 // react-simplemde-editor
 import { SimpleMdeReact } from "react-simplemde-editor";
 
+// providers
+import { SuspenseProvider } from "@providers/SuspenseProvider";
+
 // hooks
 import { useGetItemsFromLS } from "@hooks/useGetItemsFromLS";
 
@@ -19,7 +22,7 @@ import { LocalStorageNotesContext } from "@context/LocalStorageNotesContext";
 
 // manitne
 import { ActionIcon, Container, Flex } from "@mantine/core";
-import { IconDeviceFloppy, IconPencil, IconTrash } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconPencil } from "@tabler/icons-react";
 
 // styles
 import "easymde/dist/easymde.min.css";
@@ -27,6 +30,12 @@ import "easymde/dist/easymde.min.css";
 const EmptyNotesList = lazy(() =>
   import("@components/EmptyNotesList").then(({ EmptyNotesList }) => ({
     default: EmptyNotesList,
+  }))
+);
+
+const DeletingNotes = lazy(() =>
+  import("@modals/DeletingNote").then(({ DeletingNotes }) => ({
+    default: DeletingNotes,
   }))
 );
 
@@ -39,9 +48,7 @@ export function NoteSection() {
 
   // context
   const { isEditNote, editNote } = useContext(EditNoteContext);
-  const { saveNewTextOfNotes, deleteNote } = useContext(
-    LocalStorageNotesContext
-  );
+  const { saveNewTextOfNotes } = useContext(LocalStorageNotesContext);
 
   // hooks
   const { notes } = useGetItemsFromLS({ noteId });
@@ -88,15 +95,9 @@ export function NoteSection() {
             </Container>
           )}
           <Flex m={0} wrap={"nowrap"}>
-            <ActionIcon
-              variant="outline"
-              color="red"
-              aria-label="IconTrash"
-              mr={"xs"}
-              onClick={() => deleteNote()}
-            >
-              <IconTrash style={{ width: "70%", height: "70%" }} stroke={1.5} />
-            </ActionIcon>
+            <SuspenseProvider>
+              <DeletingNotes />
+            </SuspenseProvider>
             <ActionIcon
               variant="outline"
               color="gray"
@@ -115,7 +116,9 @@ export function NoteSection() {
           </Flex>
         </Flex>
       ) : (
-        <EmptyNotesList />
+        <SuspenseProvider>
+          <EmptyNotesList />
+        </SuspenseProvider>
       )}
     </>
   );
