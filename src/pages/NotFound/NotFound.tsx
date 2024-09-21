@@ -17,7 +17,7 @@ import image from "/icons/404.svg";
 // styles
 import classes from "./NotFound.module.css";
 
-export function NotFound() {
+export const NotFound = () => {
   return (
     <Container className={classes.root}>
       <SimpleGrid spacing={{ base: 40, sm: 80 }} cols={{ base: 1, sm: 2 }}>
@@ -44,4 +44,4 @@ export function NotFound() {
       </SimpleGrid>
     </Container>
   );
-}
+};

@@ -1,11 +1,13 @@
 // react
 import { ILSNotes } from "@src/types";
-import { createContext } from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
 
 interface LocalStorageNotesContext {
   notes: ILSNotes[];
   saveNewTextOfNotes: (newText: string) => void;
-  deleteNote: () => void;
+  deleteNote: (id: number) => void;
+  setDeleteNoteId: Dispatch<SetStateAction<number>>;
+  deleteNoteId: number;
 }
 
 export const LocalStorageNotesContext = createContext<LocalStorageNotesContext>(
@@ -13,5 +15,7 @@ export const LocalStorageNotesContext = createContext<LocalStorageNotesContext>(
     notes: [],
     saveNewTextOfNotes: () => {},
     deleteNote: () => {},
+    setDeleteNoteId: () => {},
+    deleteNoteId: 0,
   }
 );

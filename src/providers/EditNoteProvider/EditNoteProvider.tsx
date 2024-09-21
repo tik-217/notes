@@ -12,6 +12,7 @@ export function EditNoteProvider({ children }: { children: JSX.Element }) {
   const options = {
     isEditNote,
     editNote,
+    setIsEditNote,
   };
 
   return (

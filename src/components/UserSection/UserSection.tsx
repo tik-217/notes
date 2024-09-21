@@ -1,5 +1,5 @@
 // react
-import { useContext } from "react";
+import { memo, useContext } from "react";
 
 // mantine
 import { UnstyledButton, Group, Avatar, Text, rem } from "@mantine/core";
@@ -13,7 +13,7 @@ import { AuthContext } from "@context/AuthContext";
 // styles
 import classes from "./UserSection.module.css";
 
-export function UserSection() {
+export const UserSection = memo(() => {
   const { user, signOut } = useContext(AuthContext);
 
   return (
@@ -38,4 +38,4 @@ export function UserSection() {
       </Group>
     </UnstyledButton>
   );
-}
+});

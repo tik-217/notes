@@ -13,6 +13,9 @@ import { SimpleMdeReact } from "react-simplemde-editor";
 // providers
 import { SuspenseProvider } from "@providers/SuspenseProvider";
 
+// components
+import { ActionNoteButtons } from "@components/ActionNoteButtons";
+
 // hooks
 import { useGetItemsFromLS } from "@hooks/useGetItemsFromLS";
 
@@ -21,8 +24,7 @@ import { EditNoteContext } from "@context/EditNoteContext";
 import { LocalStorageNotesContext } from "@context/LocalStorageNotesContext";
 
 // manitne
-import { ActionIcon, Container, Flex } from "@mantine/core";
-import { IconDeviceFloppy, IconPencil } from "@tabler/icons-react";
+import { Container, Flex, Title } from "@mantine/core";
 
 // styles
 import "easymde/dist/easymde.min.css";
@@ -33,25 +35,19 @@ const EmptyNotesList = lazy(() =>
   }))
 );
 
-const DeletingNotes = lazy(() =>
-  import("@modals/DeletingNote").then(({ DeletingNotes }) => ({
-    default: DeletingNotes,
-  }))
-);
-
-export function NoteSection() {
+export const NoteSection = () => {
   // params
   const { id: noteId } = useParams();
 
-  // state
+  // states
   const [mdText, setMdText] = useState("");
 
   // context
-  const { isEditNote, editNote } = useContext(EditNoteContext);
+  const { isEditNote } = useContext(EditNoteContext);
   const { saveNewTextOfNotes } = useContext(LocalStorageNotesContext);
 
   // hooks
-  const { notes } = useGetItemsFromLS({ noteId });
+  const { notes, currNote } = useGetItemsFromLS({ noteId });
 
   const mdEdit = useCallback((newText: string) => {
     setMdText(newText);
@@ -86,7 +82,8 @@ export function NoteSection() {
           w={"100%"}
         >
           {!isEditNote ? (
-            <Flex justify={"flex-start"} w={"auto"}>
+            <Flex justify={"flex-start"} w={"auto"} direction={"column"}>
+              <Title order={3}>{currNote?.label}</Title>
               <ReactMarkdown>{mdText}</ReactMarkdown>
             </Flex>
           ) : (
@@ -94,26 +91,7 @@ export function NoteSection() {
               <SimpleMdeReact value={mdText} onChange={mdEdit} />
             </Container>
           )}
-          <Flex m={0} wrap={"nowrap"}>
-            <SuspenseProvider>
-              <DeletingNotes />
-            </SuspenseProvider>
-            <ActionIcon
-              variant="outline"
-              color="gray"
-              aria-label="IconPencil"
-              onClick={() => editNote(!isEditNote)}
-            >
-              {!isEditNote ? (
-                <IconPencil
-                  style={{ width: "70%", height: "70%" }}
-                  stroke={1.5}
-                />
-              ) : (
-                <IconDeviceFloppy />
-              )}
-            </ActionIcon>
-          </Flex>
+          {currNote?.id && <ActionNoteButtons listIdNote={currNote.id} />}
         </Flex>
       ) : (
         <SuspenseProvider>
@@ -122,4 +100,4 @@ export function NoteSection() {
       )}
     </>
   );
-}
+};

@@ -11,12 +11,19 @@ export const switchingNotesList = ({
   navigate,
 }: {
   notes: ILSNotes[];
-  noteId: string;
+  noteId: number;
   navigate: NavigateFunction;
 }) => {
-  if (notes[0].id >= +noteId) {
-    navigate(`notes/${+noteId + 1}`);
-  } else if (+noteId > notes.length) {
-    navigate(`notes/${+noteId - 1}`);
+  const gettingThePreviousListItems = notes.filter((el) => el.id < +noteId);
+
+  if (notes.length === 0) {
+    navigate(`notes/1`);
+    return;
+  }
+
+  if (!gettingThePreviousListItems.at(-1)) {
+    navigate(`notes/${notes[0].id}`);
+  } else {
+    navigate(`notes/${gettingThePreviousListItems.at(-1)?.id}`);
   }
 };

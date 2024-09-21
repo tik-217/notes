@@ -1,5 +1,5 @@
 // react
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 // react-router-dom
 import { useNavigate, useParams } from "react-router-dom";
@@ -22,11 +22,14 @@ export const LocalStorageNotesProvider = ({
 }) => {
   const { id: noteId } = useParams();
 
+  // states
+  const [deleteNoteId, setDeleteNoteId] = useState(0);
+
   // get the status of editing a note
   const { isEditNote } = useContext(EditNoteContext);
 
   // get all notes from local storage
-  const { notes } = useGetItemsFromLS({ noteId });
+  const { notes, currNote } = useGetItemsFromLS({ noteId });
 
   const navigate = useNavigate();
 
@@ -34,28 +37,21 @@ export const LocalStorageNotesProvider = ({
     if (!isEditNote) return;
     if (!noteId) return;
 
-    const filterAllNotes = notes.map((el) => {
-      if (el.id === +noteId) {
-        el.text = newText;
-        return el;
-      }
+    if (currNote) {
+      currNote.text = newText;
+    }
 
-      return el;
-    });
-
-    writeNewNotesLocalStorage({ notes, filterAllNotes });
+    writeNewNotesLocalStorage({ notes });
   };
 
-  const deleteNote = () => {
-    if (!noteId) return;
+  const deleteNote = (id: number) => {
+    const filterAllNotes = notes.filter((el) => el.id !== id);
 
-    const filterAllNotes = notes.filter((el) => el.id !== +noteId);
-
-    writeNewNotesLocalStorage({ notes, filterAllNotes });
+    writeNewNotesLocalStorage({ notes: filterAllNotes });
 
     switchingNotesList({
-      notes,
-      noteId,
+      notes: filterAllNotes,
+      noteId: id,
       navigate,
     });
   };
@@ -64,6 +60,8 @@ export const LocalStorageNotesProvider = ({
     notes,
     saveNewTextOfNotes,
     deleteNote,
+    setDeleteNoteId,
+    deleteNoteId,
   };
 
   return (

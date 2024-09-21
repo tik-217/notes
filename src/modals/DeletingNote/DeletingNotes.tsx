@@ -9,7 +9,7 @@ import { modals } from "@mantine/modals";
 import { LocalStorageNotesContext } from "@context/LocalStorageNotesContext";
 import { IconTrash } from "@tabler/icons-react";
 
-export const DeletingNotes = () => {
+export const DeletingNotes = ({ listIdNote }: { listIdNote: number }) => {
   const { deleteNote } = useContext(LocalStorageNotesContext);
 
   const openDeleteModal = () =>
@@ -19,7 +19,7 @@ export const DeletingNotes = () => {
       children: <Text size="sm">Вы уверенны, что хотите удалить заметку?</Text>,
       labels: { confirm: "Удалить заметку", cancel: "Не удалять" },
       confirmProps: { color: "red" },
-      onConfirm: () => deleteNote(),
+      onConfirm: () => deleteNote(listIdNote),
     });
 
   return (
