@@ -17,7 +17,7 @@ export const switchingNotesList = ({
   const gettingThePreviousListItems = notes.filter((el) => el.id < +noteId);
 
   if (notes.length === 0) {
-    navigate(`notes/1`);
+    navigate(`notes`);
     return;
   }
 
