@@ -6,15 +6,18 @@ import { useContext, useState } from "react";
 import { LocalStorageNotesContext } from "@context/LocalStorageNotesContext";
 import { Link } from "react-router-dom";
 
-export function Search() {
+export const Search = () => {
+  // context
   const { notes } = useContext(LocalStorageNotesContext);
 
+  // states
+  const [value, setValue] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+
+  // hooks
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
-
-  const [value, setValue] = useState<string | null>(null);
-  const [search, setSearch] = useState("");
 
   const shouldFilterOptions = notes.every((item) => {
     return item.label !== search;
@@ -75,4 +78,4 @@ export function Search() {
       </Combobox>
     </Container>
   );
-}
+};

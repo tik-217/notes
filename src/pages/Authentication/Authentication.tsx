@@ -14,7 +14,7 @@ import { isNotEmpty, useForm } from "@mantine/form";
 // styles
 import classes from "./Authentication.module.css";
 
-export function Authentication() {
+export const Authentication = () => {
   const { login } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -74,4 +74,4 @@ export function Authentication() {
       </Paper>
     </Container>
   );
-}
+};

@@ -2,7 +2,7 @@
 import { lazy, useEffect, useState } from "react";
 
 // react-router-dom
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 // constants
 import { LSNoteName } from "@constants/LSNoteName";
@@ -47,6 +47,8 @@ const NotFound = lazy(() =>
 export function MainRoutes() {
   const [firstNoteId, setFirstNoteId] = useState(1);
 
+  const location = useLocation();
+
   // getting the initial note id and assigning notes by default
   useEffect(() => {
     const LSNotes = localStorage.getItem(LSNoteName);
@@ -56,7 +58,7 @@ export function MainRoutes() {
     } else {
       localStorage.setItem(LSNoteName, JSON.stringify(notesList));
     }
-  }, []);
+  }, [location]);
 
   return (
     <Routes>
@@ -64,15 +66,15 @@ export function MainRoutes() {
         path="/"
         element={
           <AuthProvider>
-            <SuspenseProvider>
-              <CheckAuthProvider>
-                <EditNoteProvider>
-                  <LocalStorageNotesProvider>
+            <CheckAuthProvider>
+              <EditNoteProvider>
+                <LocalStorageNotesProvider>
+                  <SuspenseProvider>
                     <MainLayout />
-                  </LocalStorageNotesProvider>
-                </EditNoteProvider>
-              </CheckAuthProvider>
-            </SuspenseProvider>
+                  </SuspenseProvider>
+                </LocalStorageNotesProvider>
+              </EditNoteProvider>
+            </CheckAuthProvider>
           </AuthProvider>
         }
       >

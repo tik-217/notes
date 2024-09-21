@@ -1,3 +1,3 @@
-import { LocalStorageNotesProvider } from "./LSNotesProvider";
+import { LocalStorageNotesProvider } from "./LocalStorageNotesProvider";
 
 export { LocalStorageNotesProvider };
