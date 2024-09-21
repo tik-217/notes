@@ -30,5 +30,6 @@ export function useGetItemsFromLS({ noteId }: { noteId: string | undefined }) {
   return {
     notes,
     currNote,
+    setNotes,
   };
 }

@@ -79,6 +79,7 @@ export function MainRoutes() {
         }
       >
         <Route index element={<Navigate to={`notes/${firstNoteId}`} />} />
+        <Route path="notes" element={<Navigate to={`${firstNoteId}`} />} />
         <Route path="notes/:id" element={<NoteSection />} />
       </Route>
       <Route

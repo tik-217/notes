@@ -29,7 +29,7 @@ export const LocalStorageNotesProvider = ({
   const { isEditNote } = useContext(EditNoteContext);
 
   // get all notes from local storage
-  const { notes, currNote } = useGetItemsFromLS({ noteId });
+  const { notes, currNote, setNotes } = useGetItemsFromLS({ noteId });
 
   const navigate = useNavigate();
 
@@ -54,6 +54,8 @@ export const LocalStorageNotesProvider = ({
       noteId: id,
       navigate,
     });
+
+    setNotes(filterAllNotes);
   };
 
   const outOptions = {
