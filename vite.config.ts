@@ -27,6 +27,7 @@ export default defineConfig({
       "@providers": path.resolve(__dirname, "./src/providers"),
       "@constants": path.resolve(__dirname, "./src/constants"),
       "@components": path.resolve(__dirname, "./src/components"),
+      "@serviceWorkers": path.resolve(__dirname, "./src/serviceWorkers"),
     },
   },
   plugins: [react()],
