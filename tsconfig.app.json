@@ -36,7 +36,8 @@
       "@layouts/*": ["src/layouts/*"],
       "@providers/*": ["src/providers/*"],
       "@constants/*": ["src/constants/*"],
-      "@components/*": ["src/components/*"]
+      "@components/*": ["src/components/*"],
+      "@serviceWorkers/*": ["src/serviceWorkers/*"]
     }
   },
   "include": ["src"]
