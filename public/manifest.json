@@ -8,6 +8,30 @@
   "orientation": "portrait",
   "description": "Notes — это приложение для создания заметок",
   "scope": "/",
+  "protocol_handlers": [
+    {
+      "protocol": "web+tea",
+      "url": "/tea?type=%s"
+    },
+    {
+      "protocol": "web+coffee",
+      "url": "/coffee?type=%s"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/screenshot-small.png",
+      "type": "image/png",
+      "sizes": "1000x1560",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshots/screenshot-large.png",
+      "type": "image/png",
+      "sizes": "3024x1964",
+      "form_factor": "wide"
+    }
+  ],
   "start_url": "/",
   "icons": [
     {
