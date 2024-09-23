@@ -1,0 +1,1 @@
+import{j as t,F as e}from"./index-BDLyIa_D.js";import{T as r}from"./Title-CZWlSf7w.js";function l(){return t.jsx(e,{mt:"lg",ml:"lg",mr:"lg",justify:"space-between",align:"flex-start",w:"100%",children:t.jsx(r,{order:3,children:"Нет такой заметки"})})}export{l as EmptyNotesList};

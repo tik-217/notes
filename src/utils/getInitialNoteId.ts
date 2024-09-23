@@ -11,7 +11,10 @@ export const getInitialNoteId = ({
 }) => {
   const parseNotes: ILSNotes[] = JSON.parse(LSNotes);
 
-  if (!parseNotes.length) return setFirstNoteId(0);
+  if (!parseNotes.length) {
+    setFirstNoteId(0);
+    return;
+  }
 
   setFirstNoteId(parseNotes[0].id);
 };
