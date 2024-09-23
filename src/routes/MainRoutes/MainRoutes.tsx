@@ -7,11 +7,9 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 // constants
 import { LSNoteName } from "@constants/LSNoteName";
 
-// data
-import { notesList } from "@data/notesList";
-
 // utils
 import { getInitialNoteId } from "@utils/getInitialNoteId";
+import { getDatabaseNotes } from "@utils/getDatabaseNotes";
 
 // providers
 import { LocalStorageNotesProvider } from "@providers/LocalStorageNotesProvider";
@@ -56,7 +54,15 @@ export function MainRoutes() {
     if (LSNotes) {
       getInitialNoteId({ LSNotes, setFirstNoteId });
     } else {
-      localStorage.setItem(LSNoteName, JSON.stringify(notesList));
+      getDatabaseNotes()
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            localStorage.setItem(LSNoteName, JSON.stringify(snapshot.val()));
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [location]);
 
