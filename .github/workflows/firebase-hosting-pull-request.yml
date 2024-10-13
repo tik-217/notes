@@ -20,5 +20,3 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_NOTES_BDA8B }}
           projectId: notes-bda8b
-        env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
